@@ -5,7 +5,28 @@
 # Klotski
 
 
-CREATE_INITIAL_STATE = lambda : ["A", "B", "B", "C", "A", "B", "B", "C", "D", "E", "E", "F", "D", "G", "H", "F", "I", "_", "_", "J"]
+CREATE_INITIAL_STATE = lambda : ["A", "B", "B", "C",
+                                 "A", "B", "B", "C",
+                                 "D", "E", "E", "F",
+                                 "D", "G", "H", "F",
+                                 "I", "_", "_", "J"]
+
+
+def make_library(state):
+    library = {}
+    for i in range(len(state)):
+        if state[i] != "_":
+            if state[i] not in library:
+                shape = [1,1]
+                if state[(i + 1)%len(state)] == state[i]:
+                    shape[0] += 1
+                if state[(i + 4)%len(state)] == state[i]:
+                    shape[1] += 1
+                library[state[i]] = Piece(state[i], i%4, i/4, shape[0], shape[1])
+
+
+piece_dictionary = make_library(CREATE_INITIAL_STATE())
+
 
 # returns a message when goal is reached
 def goal_message(s):
@@ -19,7 +40,8 @@ def DEEP_EQUALS(s1,s2):
             return False
     return True
 
-# Shapes:
+
+# string representation of the state of the game as shown:
 # A B B C
 # A B B C
 # D E E F
@@ -83,6 +105,23 @@ def combo_list():
     return ls
 
 
+# translate a numerical direction into the corresponding
+# compass direction in the following format:
+#    1
+# 2     0
+#    3
+# on the condition that only 0 - 3 is passed in
+def translate_dir(num):
+    dir = ''
+    if num == 0:
+        dir = 'east'
+    elif num == 1:
+        dir = 'north'
+    elif num == 2:
+        dir = 'west'
+    else:
+        dir = 'south'
+    return dir
 
 
 
@@ -90,11 +129,11 @@ def combo_list():
 tile_combinations = combo_list()
 
 OPERATORS = [Operator("Move tile " + str(tile) + str(translate_dir(direction)),
-                      lambda s,p=tile,q=direction: can_move(s,p,q),
+                      lambda s,p=tile,q=direction: can_move(s,piece_dictionary[p], q),
                       # The default value construct is needed
                       # here to capture the values of p&q separately
                       # in each iteration of the list comp. iteration.
-                      lambda s,p=tile,q=direction: move(s,p,q))
+                      lambda s,p=tile,q=direction: move(s, piece_dictionary[p], q))
              for (tile, direction) in tile_combinations]
 #</OPERATORS>
 
@@ -140,26 +179,10 @@ class Piece:
         except (Exception) as e:
             print(e)
 
+                    
+
 
 
 def can_move(s, piece, direction):
     piece.can_move(s, direction)
 
-
-# translate a numerical direction into the corresponding
-# compass direction in the following format:
-#    1
-# 2     0
-#    3
-# on the condition that only 0 - 3 is passed in
-def translate_dir(num):
-    dir = ''
-    if num == 0:
-        dir = 'east'
-    elif num == 1:
-        dir = 'north'
-    elif num == 2:
-        dir = 'west'
-    else:
-        dir = 'south'
-    return dir
