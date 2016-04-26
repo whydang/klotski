@@ -7,6 +7,12 @@
 
 CREATE_INITIAL_STATE = lambda : ["A", "B", "B", "C", "A", "B", "B", "C", "D", "E", "E", "F", "D", "G", "H", "F", "I", "_", "_", "J"]
 
+# Shapes:
+# A B B C
+# A B B C
+# D E E F
+# D G H F
+# I _ _ J
 def toString(state):
     result = ""
     for row in range(5):
@@ -16,8 +22,10 @@ def toString(state):
         result+="\n"
     return result
 
+# class for a piece
+# defining can move precond
 class Piece:
-
+    # constructor
     def __init__(self, id, x, y, w, h):
         self.id = id
         self.x = x
@@ -25,6 +33,8 @@ class Piece:
         self.w = w
         self.h = h
 
+    # precond defining whether or not this piece can move in a certain
+    # direction given a current state
     def can_move(self, state, direction):
         w = self.w
         h = self.h
