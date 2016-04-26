@@ -5,7 +5,7 @@
 # D G H F
 # I _ _ J
 
-CREATE_INITIAL_STATE = lambda : ["A", "B", "B", "C", "A", "B", "B", "C", "D", "E", "E", "F", "D", "G", "H", "F", "I", "_", "_", "J"]
+state = ["A", "B", "B", "C", "A", "B", "B", "C", "D", "E", "E", "F", "D", "G", "H", "F", "I", "_", "_", "J"]
 
 # Shapes:
 # A B B C
@@ -17,9 +17,9 @@ def toString(state):
     result = ""
     for row in range(5):
         result += "   "
-        for col in range (4):
+        for col in range(4):
             result += (state[4*row + col] + " ")
-        result+="\n"
+        result += "\n"
     return result
 
 # class for a piece
@@ -62,3 +62,16 @@ class Piece:
 
         except (Exception) as e:
             print(e)
+
+def make_library(state):
+    library = {}
+    for i in range(len(state)):
+        if state[i] != "_":
+            if state[i] not in library:
+                shape = [1,1]
+                if state[(i + 1)%len(state)] == state[i]:
+                    shape[0] += 1
+                if state[(i + 4)%len(state)] == state[i]:
+                    shape[1] += 1
+                library[state[i]] = Piece(state[i], i%4, i/4, shape[0], shape[1])
+                    
