@@ -23,6 +23,7 @@ def make_library(state):
                 if state[(i + 4)%len(state)] == state[i]:
                     shape[1] += 1
                 library[state[i]] = Piece(state[i], i%4, i/4, shape[0], shape[1])
+    return library
 
 
 piece_dictionary = make_library(CREATE_INITIAL_STATE())
@@ -70,7 +71,7 @@ class Operator:
         return self.state_transf(s)
 
 
-
+# 
 def move(s, From, To):
     '''Assuming it's legal to make the move, this computes
      the new state resulting from moving the a tile to an available
