@@ -16,5 +16,39 @@ def toString(state):
         result+="\n"
     return result
 
-save = toString(CREATE_INITIAL_STATE())
-print(save)
+class Piece:
+
+    def __init__(self, id, x, y, w, h):
+        self.id = id
+        self.x = x
+        self.y = y
+        self.w = w
+        self.h = h
+
+    def can_move(self, state, direction):
+        w = self.w
+        h = self.h
+        x = self.x
+        y = self.y
+        try:
+            move = 1
+            if direction > 1:
+                move = -move
+            if direction%2 == 0:
+                for i in range(h):
+                    if 0 <= x + move < 4:
+                        if state[4*(y+i) + x + move] != ("_" or self.id):
+                            return False
+                    else:
+                        return False
+            else:
+                for i in range(w):
+                    if 0 <= y + move < 5:
+                        if state[4*(y+move) + (x+i)] != ("_" or self.id):
+                            return False
+                    else:
+                        return False
+            return True
+
+        except (Exception) as e:
+            print(e)
