@@ -106,7 +106,6 @@ def goal_message(s):
 
 
 #<INITIAL_STATE>
-N_col = 3
 INITIAL_STATE = [1, 4, 2, 3, 7, 0, 6, 8, 5]
 
 CREATE_INITIAL_STATE = lambda: INITIAL_STATE
