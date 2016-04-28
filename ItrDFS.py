@@ -10,7 +10,7 @@
 
 import sys
 
-if sys.argv==[''] or len(sys.argv)<2:
+if sys.argv==[''] or len(sys.argv) < 2:
   import BasicEightPuzzle as Problem
 else:
   import importlib

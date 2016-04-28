@@ -79,18 +79,6 @@ class Piece:
 
 
 
-def make_piece(state, tile):
-    index = state.index(tile)
-    curr_row = index % 4
-    curr_col = int(index / 4)
-
-    shape = [1,1]
-    if state[(index + 1)%len(state)] == state[index]:
-        shape[0] += 1
-    if state[(index + 4)%len(state)] == state[index]:
-        shape[1] += 1
-    return Piece(state[index], index%4, int(index/4), shape[0], shape[1])
-
 # def make_library(state):
 #     library = {}
 #     for i in range(len(state)):
@@ -220,17 +208,6 @@ def goal_test(state):
            state[17] == GOAL_BLOCK and state[18] == GOAL_BLOCK
 
 
-
-# creates a list of all possible combinations of tiles to
-# direction = (0, 1, 2, 3) and returns it
-def combo_list():
-    ls = []
-    for tile in list(set(CREATE_INITIAL_STATE()) - set(['_'])):
-        for i in range(4):
-            ls.append((tile, i))
-    return ls
-
-
 # print(str(combo_list()))
 
 
@@ -259,20 +236,38 @@ def translate_dir(num):
 def can_move(s, piece, direction):
     return piece.can_move(s, direction)
 
-# def move(s, piece, direction):
-#     return piece.move(s, direction)
+
+
+# creates a list of all possible combinations of tiles to
+# direction = (0, 1, 2, 3) and returns it
+def combo_list():
+    ls = []
+    for tile in list(set(CREATE_INITIAL_STATE()) - set(['_'])):
+        for i in range(4):
+            ls.append((tile, i))
+    return ls
+
+
+
+def make_piece(state, tile):
+    index = state.index(tile)
+    curr_col = index % 4
+    curr_row = int(index / 4)
+
+    shape = [1,1]
+    if state[(index + 1)%len(state)] == state[index]:
+        shape[0] += 1
+    if state[(index + 4)%len(state)] == state[index]:
+        shape[1] += 1
+    return Piece(state[index], curr_col, curr_row, shape[0], shape[1])
+
 
 
 #<OPERATORS>
-tile_combinations = combo_list()
-
-OPERATORS = [Operator("Move tile " + str(tile)+ " to the " + str(translate_dir(direction)),
-                      lambda s,p=tile,q=direction: can_move(s, make_piece(s, p), q),
-                      # The default value construct is needed
-                      # here to capture the values of p&q separately
-                      # in each iteration of the list comp. iteration.
-                      lambda s,p=tile,q=direction: move(s, make_piece(s, p), q))
-             for (tile, direction) in tile_combinations]
+OPERATORS = [Operator("Move tile " + str(tile) + " to the " + str(translate_dir(direction)),
+                      lambda s, p=tile, q=direction: can_move(s, make_piece(s, p), q),
+                      lambda s, p=tile, q=direction: move(s, make_piece(s, p), q))
+             for (tile, direction) in combo_list()]
 #</OPERATORS>
 
 
@@ -297,7 +292,11 @@ def h_row(s):
     return distance_from
 
 
-# def h_under(s):
+def h_under(s):
+    giant_y = int(s.index(GOAL_BLOCK) / 4) + 1
+    # for key in set(s):
+    # figure out how to get the set and use its x and y...
+
 
 
 
