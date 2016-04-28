@@ -141,27 +141,36 @@ class Operator:
 
 
 ## inprogress
-# def move(s, tile, dir):
-#     '''Assuming it's legal to make the move, this computes
-#      the new state resulting from moving the a tile to an available
-#      location'''
-#     new_state = copy_state(s)
+def move(s, tile, dir):
+    '''Assuming it's legal to make the move, this computes
+     the new state resulting from moving the a tile to an available
+     location'''
+    new_state = copy_state(s)
 
-#     curr_index = tile.y * 4 + tile.x
-#     for width in range(tile.w):
-#         for height in range(tile.h):
-#             tile_index = (curr_index + width + height * 4)
-#             print(s[tile_index])
-#             if dir == 3:
-#                 new_state[tile_index + 4] = s[tile_index]
-#             elif dir == 1:
-#                 new_state[tile_index - 4] = s[tile_index]
-#             elif dir == 0:
-#                 new_state[tile_index + 1] = s[tile_index]
-#             else:
-#                 new_state[tile_index - 1] = s[tile_index]
+    curr_index = tile.y * 4 + tile.x
+    for width in range(tile.w):
+        for height in range(tile.h):
+            tile_index = (curr_index + width + height * 4)
+            print(s[tile_index])
+            if dir == 3:
+                new_state[tile_index + 4] = s[tile_index]
+                if height == 0:
+                    new_state[tile_index] = "_"
+            elif dir == 1:
+                new_state[tile_index - 4] = s[tile_index]
+                if height == tile.h - 1:
+                    new_state[tile_index] = "_"
+            elif dir == 0:
+                new_state[tile_index + 1] = s[tile_index]
+                if width == 0 :
+                    new_state[tile_index] = "_"
+            else:
+                new_state[tile_index - 1] = s[tile_index]
+                if width == tile.w - 1:
+                    new_state[tile_index] = "_"
 
-#     return new_state
+
+    return new_state
 
 temp = ["A", "B", "B", "C",
         "A", "B", "B", "C",
@@ -169,7 +178,7 @@ temp = ["A", "B", "B", "C",
         "D", "G", "H", "F",
         "I", "_", "_", "J"]
 
-new_temp = move(temp, Piece("B", 1, 0, 2, 2), 3)
+new_temp = move(temp, Piece("F", 3, 2, 1, 2), 1)
 print(DESCRIBE_STATE(temp))
 print(DESCRIBE_STATE(new_temp))
 
