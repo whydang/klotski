@@ -59,7 +59,7 @@ def IterativeDFS(initial_state):
     for op in Problem.OPERATORS:
       # Optionally uncomment the following when debugging
       # a new problem formulation.
-      # print("Trying operator: "+op.name)
+      # print("Trying operator: "+op.name + "\n")
       if op.precond(S):
         new_state = op.state_transf(S)
 

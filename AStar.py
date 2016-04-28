@@ -45,7 +45,7 @@ def IterateAStar(initial_state):
     OPEN = [[initial_state, heuristics(initial_state)]]
     CLOSED = []
 
-    print(initial_state)
+    # print(initial_state)
     COST = {Problem.HASHCODE(initial_state): 0}
 
     BACKLINKS[Problem.HASHCODE(initial_state)] = -1
