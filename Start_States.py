@@ -42,26 +42,58 @@ class Piece:
         y = self.y
         try:
             move = 1
-            if direction > 1:
+            if direction == 1 or 2:
                 move = -move
             if direction%2 == 0:
                 for i in range(h):
-                    if 0 <= x + move < 4:
-                        if state[4*(y+i) + x + move] != ("_" or self.id):
+                    for j in range(w):
+                        if 0 <= (x+j) + move < 4:
+                            if state[4*(y+i) + (x+j) + move] != ("_" or self.id):
+                                return False
+                        else:
                             return False
-                    else:
-                        return False
             else:
-                for i in range(w):
-                    if 0 <= y + move < 5:
-                        if state[4*(y+move) + (x+i)] != ("_" or self.id):
+                for i in range(h):
+                    for j in range(w):
+                        if 0 <= (y+i) + move < 5:
+                            if state[4*(y+i+move) + (x+j)] != ("_" or self.id):
+                                return False
+                        else:
                             return False
-                    else:
-                        return False
             return True
 
         except (Exception) as e:
             print(e)
+
+    def move(self, state, direction):
+        x = self.x
+        y = self.y
+        nu_state = copy_state(state)
+        index = state.index(self.id)
+        move = 1
+        if direction == 1 or 2:
+            move = -move
+        if direction%2 == 0:
+            for i in range(self.w + 1):
+                for j in range(self.h):
+                    pos = 4*(y + j) + x + i + (-1 + move)/2
+                    nu_state[pos] = index
+                    if i == 0 and move > 0:
+                        nu_state[pos] = "_"
+                    if i == self.w - 1 and move < 0:
+                        nu_state[pos + self.w] = "_"
+        else :
+            for i in range(self.w):
+                for j in range(self.h + 1):
+                    pos = 4 * (y + j + (-1 + move)/2) + x + i
+                    nu_state[pos] = index
+                    if j == 0 and move > 0:
+                        nu_state[pos] = "_"
+                    if j == self.h - 1 and move < 0:
+                        nu_state[pos + self.w] = "_"
+
+
+
 
 def make_library(state):
     library = {}
