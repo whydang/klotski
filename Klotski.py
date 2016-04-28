@@ -63,6 +63,35 @@ class Piece:
             print(e)
 
 
+    # def move(self, state, direction):
+    #     x = self.x
+    #     y = self.y
+    #     nu_state = copy_state(state)
+    #     index = self.id
+    #     move = 1
+    #     if direction == 1 or 2:
+    #         move = -move
+    #     if direction%2 == 0:
+    #         for i in range(self.w + 1):
+    #             for j in range(self.h):
+    #                 pos = 4*(y + j) + x + i + (-1 + move)/2
+    #                 nu_state[pos] = index
+    #                 if i == 0 and move > 0:
+    #                     nu_state[pos] = "_"
+    #                 if i == self.w - 1 and move < 0:
+    #                     nu_state[pos + self.w] = "_"
+    #     else :
+    #         for i in range(self.w):
+    #             for j in range(self.h + 1):
+    #                 pos = int(4 * (y + j + (-1 + move)/2) + x + i)
+    #                 nu_state[pos] = index
+    #                 if j == 0 and move > 0:
+    #                     nu_state[pos] = "_"
+    #                 if j == self.h - 1 and move < 0:
+    #                     nu_state[pos + self.w] = "_"
+    #     return nu_state
+
+
 
 
 def make_library(state):
@@ -115,7 +144,7 @@ def DESCRIBE_STATE(state):
     for row in range(5):
         result = result + "   "
         for col in range (4):
-            result = result + (str(state[4*row + col]) + " ")
+            result = result + (str(state[4 * row + col]) + " ")
         result = result + "\n"
     return result
 
@@ -163,15 +192,6 @@ class Operator:
 
 #     return new_state
 
-temp = ["A", "B", "B", "C",
-        "A", "B", "B", "C",
-        "D", "E", "E", "F",
-        "D", "G", "H", "F",
-        "I", "_", "_", "J"]
-
-new_temp = move(temp, Piece("B", 1, 0, 2, 2), 3)
-print(DESCRIBE_STATE(temp))
-print(DESCRIBE_STATE(new_temp))
 
 # determines whether or not the state is a goal state
 # implying that 2x2 square is on the center bottom
@@ -217,8 +237,10 @@ def translate_dir(num):
 # returns the can_move function of the given piece in a
 # direction relative to the state
 def can_move(s, piece, direction):
-    piece.can_move(s, direction)
+    return piece.can_move(s, direction)
 
+def move(s, piece, direction):
+    return piece.move(s, direction)
 
 #<OPERATORS>
 tile_combinations = combo_list()
@@ -241,3 +263,15 @@ GOAL_TEST = lambda s: goal_test(s)
 #<GOAL_MESSAGE_FUNCTION> (optional)
 GOAL_MESSAGE_FUNCTION = lambda s: goal_message(s)
 #</GOAL_MESSAGE_FUNCTION>
+
+
+
+temp = ["A", "B", "B", "C",
+        "A", "B", "B", "C",
+        "D", "E", "E", "F",
+        "D", "G", "H", "F",
+        "I", "_", "_", "J"]
+
+new_temp = move(temp, Piece("B", 1, 0, 2, 2), 3)
+print(DESCRIBE_STATE(temp))
+print(DESCRIBE_STATE(new_temp))
