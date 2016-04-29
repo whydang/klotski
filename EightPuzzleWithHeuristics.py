@@ -64,7 +64,7 @@ def can_move(s,From,To):
             return True
         return False
     except (Exception) as e:
-        print("herp " + str(e))
+        print(str(e))
 
 
 
