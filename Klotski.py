@@ -190,15 +190,15 @@ def move(s, tile, dir):
     return new_state
 
 
-temp = ["A", "B", "B", "C",
-         "A", "B", "B", "C",
-         "D", "E", "E", "F",
-         "D", "G", "H", "F",
-         "I", "_", "_", "J"]
-pieces = Piece("G", 1, 3, 1, 1)
-new_temp = move(temp, pieces, 3)
-print(pieces)
-print(new_temp)
+# temp = ["A", "B", "B", "C",
+#          "A", "B", "B", "C",
+#          "D", "E", "E", "F",
+#          "D", "G", "H", "F",
+#          "I", "_", "_", "J"]
+# pieces = Piece("G", 1, 3, 1, 1)
+# new_temp = move(temp, pieces, 3)
+# print(pieces)
+# print(new_temp)
 
 
 # determines whether or not the state is a goal state
@@ -292,14 +292,27 @@ def h_row(s):
     return distance_from
 
 
-def h_under(s):
-    giant_y = int(s.index(GOAL_BLOCK) / 4) + 1
-    # for key in set(s):
-    # figure out how to get the set and use its x and y...
+def h_underneath(s):
+    goal_y = int(s.index(GOAL_BLOCK) / 4) + 1
+    total = 0
+    empty_index = int(s.index('_'))
+    if ((empty_index+1)%4 != 0 and s[(empty_index+1)%4] != '_') \
+            or (s[(empty_index + 4) % 20] != '_'):
+        total += 2
 
+    for key in set(s):
+        piece = make_piece(s, key)
+        if (piece.y > goal_y):
+            total += piece.w * piece.h
+    return int(total)
 
 
 
 #<HEURISTICS>
-HEURISTICS = {'h_row':h_row}
+HEURISTICS = {'h_row':h_row, 'h_underneath': h_underneath}
 #</HEURISTICS>
+
+# <STATE_VIS>
+def render_state(s):
+    return DESCRIBE_STATE(s)
+# </STATE_VIS>
