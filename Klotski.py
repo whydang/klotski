@@ -1,22 +1,28 @@
 # Ying Dang and Derek Rhodehamel
 # CSE 415 A, Spring 2016
-# Homework 4
+# Homework 4: Option B
 
-# Klotski
+# COMPLETE
+# Klotski is a game represented by 1x1, 1x2, and 2x1 tiles followed by a single 2x2 tile
+# in a 4x5 board with two 1x1 squares left empty.
+
+# The goal of the game is to manuever the tiles by "swapping" with the empty spaces
+# in such a way that the 2x2 block is located at the center bottom in order to remove that
+# tile in the "exit" opening at the center bottom of the board.
 
 
 #<INITIAL_STATE>
-GOAL_BLOCK = 'B'
-# CREATE_INITIAL_STATE = lambda : ["A", "B", "B", "C",
-#                                  "A", "B", "B", "C",
+GOAL_BLOCK = 'A'
+# CREATE_INITIAL_STATE = lambda : ["B", "A", "A", "C",
+#                                  "B", "A", "A", "C",
 #                                  "D", "E", "E", "F",
 #                                  "D", "G", "H", "F",
 #                                  "I", "_", "_", "J"]
 
-CREATE_INITIAL_STATE = lambda : ["E", "E", "_", "_",
-                                 "A", "G", "H", "C",
-                                 "A", "B", "B", "C",
-                                 "D", "B", "B", "F",
+CREATE_INITIAL_STATE = lambda : ["E", "E", "_", "H",
+                                 "B", "G", "_", "C",
+                                 "B", "A", "A", "C",
+                                 "D", "A", "A", "F",
                                  "D", "I", "J", "F"]
 #</INITIAL_STATE>
 
@@ -38,7 +44,7 @@ class Piece:
         self.w = w
         self.h = h
 
-
+    # string representation of the piece
     def __str__(self):
         return self.id + " " + str(int(self.x)) + " " + str(int(self.y)) \
         + " " + str(int(self.w)) + " " + str(int(self.h))
@@ -77,23 +83,6 @@ class Piece:
         except (Exception) as e:
             print(e)
 
-
-
-# def make_library(state):
-#     library = {}
-#     for i in range(len(state)):
-#         if state[i] != "_":
-#             if state[i] not in library:
-#                 shape = [1,1]
-#                 if state[(i + 1)%len(state)] == state[i]:
-#                     shape[0] += 1
-#                 if state[(i + 4)%len(state)] == state[i]:
-#                     shape[1] += 1
-#                 library[state[i]] = Piece(state[i], i%4, int(i/4), shape[0], shape[1])
-#     return library
-
-
-# piece_dictionary = make_library(CREATE_INITIAL_STATE())
 
 
 # returns a message when the goal is reached
@@ -154,7 +143,8 @@ class Operator:
         return self.state_transf(s)
 
 
-## inprogress
+# moves a tile in the given direction in the current state given
+# and returns that new state
 def move(s, tile, dir):
     '''Assuming it's legal to make the move, this computes
      the new state resulting from moving the a tile to an available
@@ -190,25 +180,12 @@ def move(s, tile, dir):
     return new_state
 
 
-# temp = ["A", "B", "B", "C",
-#          "A", "B", "B", "C",
-#          "D", "E", "E", "F",
-#          "D", "G", "H", "F",
-#          "I", "_", "_", "J"]
-# pieces = Piece("G", 1, 3, 1, 1)
-# new_temp = move(temp, pieces, 3)
-# print(pieces)
-# print(new_temp)
-
-
 # determines whether or not the state is a goal state
 # implying that 2x2 square is on the center bottom
 def goal_test(state):
     return state[13] == GOAL_BLOCK and state[14] == GOAL_BLOCK and \
            state[17] == GOAL_BLOCK and state[18] == GOAL_BLOCK
 
-
-# print(str(combo_list()))
 
 
 # translate a numerical direction into the corresponding
@@ -242,13 +219,14 @@ def can_move(s, piece, direction):
 # direction = (0, 1, 2, 3) and returns it
 def combo_list():
     ls = []
-    for tile in list(set(CREATE_INITIAL_STATE()) - set(['_'])):
+    for tile in sorted(list(set(CREATE_INITIAL_STATE()) - set(['_']))):
         for i in range(4):
             ls.append((tile, i))
     return ls
 
 
-
+# makes a piece object given a tile and the state locating that tile
+# and returns it
 def make_piece(state, tile):
     index = state.index(tile)
     curr_col = index % 4
@@ -282,17 +260,10 @@ GOAL_MESSAGE_FUNCTION = lambda s: goal_message(s)
 
 
 
-# computes the offset of 2x2 tile's x + y offset from goal
+# totals up the number of tile square beneath the goal block
+# including whether or not the empty spaces are adjacent
 # and returns that value
-def h_row(s):
-    curr_index = s.index("B")
-    curr_col = curr_index % 4
-    curr_row = int(curr_index / 4)
-    distance_from = abs(4 - curr_row)
-    return distance_from
-
-
-def h_underneath(s):
+def h_custom(s):
     goal_y = int(s.index(GOAL_BLOCK) / 4) + 1
     total = 0
     empty_index = int(s.index('_'))
@@ -300,7 +271,7 @@ def h_underneath(s):
             or (s[(empty_index + 4) % 20] != '_'):
         total += 2
 
-    for key in set(s):
+    for key in sorted(set(s) - set(['_'])):
         piece = make_piece(s, key)
         if (piece.y > goal_y):
             total += piece.w * piece.h
@@ -309,7 +280,7 @@ def h_underneath(s):
 
 
 #<HEURISTICS>
-HEURISTICS = {'h_row':h_row, 'h_underneath': h_underneath}
+HEURISTICS = {'h_custom':h_custom}
 #</HEURISTICS>
 
 # <STATE_VIS>

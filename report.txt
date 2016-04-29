@@ -1,90 +1,61 @@
+Ying Dang and Derek Rhodehamel
+CSE 415 A, Spring 2016
+Homework 4: Option B
 
-Welcome to A Star
-Initial State:
-   E E _ _ 
-   A G H C 
-   A B B C 
-   D B B F 
-   D I J F 
+-------------------------------------------------------
 
-..Solved the Klotski puzzle, champ!
-Solution path: 
-   E E _ _ 
-   A G H C 
-   A B B C 
-   D B B F 
-   D I J F 
+Provide a test run that shows a solution found by either BreadthFS.py or AStar.py using your formulation.
 
-   E E H _ 
-   A G _ C 
-   A B B C 
-   D B B F 
-   D I J F 
+	- represented in report_astar.txt and report_bfs.txt (copy and paste over???)
 
-   E E H _ 
-   A _ G C 
-   A B B C 
-   D B B F 
-   D I J F 
 
-   E E H C 
-   A _ G C 
-   A B B _ 
-   D B B F 
-   D I J F 
 
-   E E H C 
-   A _ G C 
-   A B B F 
-   D B B F 
-   D I J _ 
 
-   E E H C 
-   A G _ C 
-   A B B F 
-   D B B F 
-   D I J _ 
 
-   E E _ C 
-   A G H C 
-   A B B F 
-   D B B F 
-   D I J _ 
 
-   _ E E C 
-   A G H C 
-   A B B F 
-   D B B F 
-   D I J _ 
 
-   A E E C 
-   A G H C 
-   _ B B F 
-   D B B F 
-   D I J _ 
 
-   A E E C 
-   A G H C 
-   _ B B F 
-   D B B F 
-   D I _ J 
+-------------------------------------------------------
 
-   A E E C 
-   A G H C 
-   D B B F 
-   D B B F 
-   _ I _ J 
+If you are doing Option A, develop tests that show the relative performance of Breadth-First Search, A* with heuristic 1, and A* with heuristic 2. If you wish, you can use two separate graphs, one comparing Breadth-First Search and A* with one heuristic, and another comparing just the two versions of A*. Each graph should be created with examples that help the reader understand the differences in performance from the heuristics. Your heuristics themselves should use different insights about the problem, and they should not be closely related, such as one being some constant multiple of the other.
 
-   A E E C 
-   A G H C 
-   D B B F 
-   D B B F 
-   I _ _ J 
+If you are doing Option B, then you only need to compare Breadth-First Search with A* using one heuristic function.
 
-   A E E C 
-   A G H C 
-   D _ _ F 
-   D B B F 
-   I B B J 
+In your report file, describe your approach to formulating the problem. Describe the intuition behind each heuristic function for A*, and finally explain, as best you can, why one of the heuristics is performing better than the other (if that is true).
 
-76 states examined.
+
+	Our approach to formulating the problem was to figure out the following:
+
+		- precondition: a block of any size can only move in a direction that is empty so long as the empty space can fit the block
+		
+		- move combinations: all blocks can possibly move north, south, east, west so long as the precondition is passed
+		
+		- goal state: the 2x2 block is located at the center bottom in order to remove that tile in the "exit" opening at the center bottom of the board.
+
+
+
+
+	Heuristics Evaluation Function:
+
+	The hueristics evaluation function (h_custom) was formulated based on the idea that the goal block (2x2) should be at the center bottom in the goal state. However, applying a manhattan distance function is not ideal because the initial state of the block would be closer to the goal when the block may possibly need to move to the corner and slide down in order to solve the puzzle. Therefore we concluded with computing what "level" the block is on and what is underneath it in order to determine what should be prioritized. Specifically, if the block has empty spaces below its level, it should be prioritized. Also, if these empty spaces are adjacent, then it implies that a potential move of a block larger than a 1x1 is possible thus it is also prioritized as well (this is to ensure that there is space for the 2x2 goal block to move). Therefore, we implemented a heuristics function that totals up the number of tile square beneath the goal block including whether or not the empty spaces are adjacent and return that value.
+
+
+
+
+
+-------------------------------------------------------
+
+Include in your report a section called "Retrospective" that explains (a) what each team member contributed to the partnership's work, and (b) in each team member's own words, what he or she learned by doing this assignment.
+
+	Retrospective:
+
+		Ying
+		-----
+			- primed and implemented moderately simply functions necessary
+			- focused mainly on debugging and patching the program
+			- 
+
+
+		Derek
+		-----
+			- almighty mathematician with godly skillzZz

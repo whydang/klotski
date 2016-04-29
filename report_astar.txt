@@ -1,0 +1,90 @@
+
+Welcome to A Star
+Initial State:
+   E E _ H 
+   B G _ C 
+   B A A C 
+   D A A F 
+   D I J F 
+
+.Solved the Klotski puzzle, champ!
+Solution path: 
+   E E _ H 
+   B G _ C 
+   B A A C 
+   D A A F 
+   D I J F 
+
+   E E _ H 
+   B _ G C 
+   B A A C 
+   D A A F 
+   D I J F 
+
+   E E H _ 
+   B _ G C 
+   B A A C 
+   D A A F 
+   D I J F 
+
+   E E H C 
+   B _ G C 
+   B A A _ 
+   D A A F 
+   D I J F 
+
+   E E H C 
+   B _ G C 
+   B A A F 
+   D A A F 
+   D I J _ 
+
+   E E H C 
+   B G _ C 
+   B A A F 
+   D A A F 
+   D I J _ 
+
+   E E _ C 
+   B G H C 
+   B A A F 
+   D A A F 
+   D I J _ 
+
+   _ E E C 
+   B G H C 
+   B A A F 
+   D A A F 
+   D I J _ 
+
+   B E E C 
+   B G H C 
+   _ A A F 
+   D A A F 
+   D I J _ 
+
+   B E E C 
+   B G H C 
+   D A A F 
+   D A A F 
+   _ I J _ 
+
+   B E E C 
+   B G H C 
+   D A A F 
+   D A A F 
+   I _ J _ 
+
+   B E E C 
+   B G H C 
+   D A A F 
+   D A A F 
+   I _ _ J 
+
+   B E E C 
+   B G H C 
+   D _ _ F 
+   D A A F 
+   I A A J 
+
+61 states examined.
