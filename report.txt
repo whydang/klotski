@@ -1,19 +1,21 @@
 Ying Dang and Derek Rhodehamel
 CSE 415 A, Spring 2016
 Homework 4: Option B
+Status : Complete
 
 -------------------------------------------------------
 
 Provide a test run that shows a solution found by either BreadthFS.py or AStar.py using your formulation.
 
-	- represented in report_astar.txt and report_bfs.txt (copy and paste over???)
+	- represented in report_astar.txt and report_bfs.txt included as submissions
 
+	Note test puzzle not as complex as standard start because DFS can't handle it
 
+	AStar : 61 states examined
 
+	BFS : 128 states examined
 
-
-
-
+	DFS : 584 states examined
 
 -------------------------------------------------------
 
@@ -39,8 +41,7 @@ In your report file, describe your approach to formulating the problem. Describe
 
 	The hueristics evaluation function (h_custom) was formulated based on the idea that the goal block (2x2) should be at the center bottom in the goal state. However, applying a manhattan distance function is not ideal because the initial state of the block would be closer to the goal when the block may possibly need to move to the corner and slide down in order to solve the puzzle. Therefore we concluded with computing what "level" the block is on and what is underneath it in order to determine what should be prioritized. Specifically, if the block has empty spaces below its level, it should be prioritized. Also, if these empty spaces are adjacent, then it implies that a potential move of a block larger than a 1x1 is possible thus it is also prioritized as well (this is to ensure that there is space for the 2x2 goal block to move). Therefore, we implemented a heuristics function that totals up the number of tile square beneath the goal block including whether or not the empty spaces are adjacent and return that value.
 
-
-
+    This was the most informed heuristic we could find after 5 iterations.
 
 
 -------------------------------------------------------
@@ -51,11 +52,26 @@ Include in your report a section called "Retrospective" that explains (a) what e
 
 		Ying
 		-----
-			- primed and implemented moderately simply functions necessary
+			- primed and implemented functions necessary
 			- focused mainly on debugging and patching the program
-			- 
+			- exhaustive search of edge cases to refine algorithms
+			- Main implementor of movement process
 
 
 		Derek
 		-----
-			- almighty mathematician with godly skillzZz
+			- Create algorithms to translate states into respective pieces
+			- Main implementor of precondition processes
+			- Formulated heuristic algorithm for Astar, refined by Ying
+			- Design program structure as in the pieces needed, but not necessarily implementation
+
+		Learning
+		--------
+		    - This project was really fun because it was not as conventional as the Option A but also not
+		    as hand-wavy as Option C
+		    - We feel like we did a very good job recreating the puzzle and appreciate how much more difficult
+		    it is to consider blocks of varying size.
+		    - Since there is little to no information of value heuristics for Klotski puzzles, we had to start from
+		    scratch and we are quite happy with how ours turned out.
+		    - We also learned that turning a list into a set randomizes the order which led to very confusing bugs.
+		    - Overall we liked this assignment and are proud of how it turned out.
